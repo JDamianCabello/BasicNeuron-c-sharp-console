@@ -2,20 +2,23 @@
 {
     public class Neurona
     {
-        public double[] EntradasNeurona { get; set; }
-        public double Umbral { get; set; }
+        double[] EntradasNeurona { get; set; }
+        double Umbral { get; set; }
 
         private const double TASADEAPRENDIZAJE = 0.3;
         //Corresponde al valor que aprende cada vez que falla, valores mas altos
         //dan resultados más rápidos pero menos exactos.
 
+        private System.Random rnd; //Para hacer que no siempre se tenga la misma seed del random
+
         private double[] entradasAnteriores;
         double umbralAnterior;
 
-        public Neurona(int nEntradas)
+        public Neurona(int nEntradas, System.Random random)
         {
             EntradasNeurona = new double[nEntradas];
             entradasAnteriores = new double[nEntradas];
+            rnd = random;
             Aprender();
         }
 
@@ -24,8 +27,6 @@
         /// </summary>
         public void Aprender()
         {
-            System.Random rnd = new System.Random();
-
             for (int i = 0; i < entradasAnteriores.Length; i++)
                 entradasAnteriores[i] = rnd.NextDouble() - rnd.NextDouble();
 

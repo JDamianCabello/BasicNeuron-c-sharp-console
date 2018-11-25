@@ -6,61 +6,49 @@ namespace RedNeuronalBasica
     {
         static void Main(string[] args)
         {
-            Neurona neurona = new Neurona(2);
 
             bool bandera = false;
-
+            int iteraciones = 0;
+            //El perceptron llega al resultado de la XOR pero no es ni mucho menos optimo
+            //Ni siquiera llega de la mejor forma es decir, siendo optimo.
+            //Arroja verdad a veces en 200 y otras por 9000, esto necesita ser optimizado.
+            Console.WriteLine("Probando la XOR");
             while (!bandera)
             {
                 bandera = true;
+                Perceptron perceptron = new Perceptron(2, new int[] { 2, 1 });
                 Console.WriteLine("".PadRight(Console.BufferWidth, '-'));
-                Console.WriteLine("Peso 1: {0}", neurona.EntradasNeurona[0]);
-                Console.WriteLine("Peso 2: {0}", neurona.EntradasNeurona[1]);
-                Console.WriteLine("Umbral: {0}", neurona.Umbral);
-                Console.WriteLine("E1:1     E2:1   :   {0}", neurona.Salida(new double[2] { 1, 1 }));
-                Console.WriteLine("E1:1     E2:0   :   {0}", neurona.Salida(new double[2] { 1, 0 }));
-                Console.WriteLine("E1:0     E2:1   :   {0}", neurona.Salida(new double[2] { 0, 1 }));
-                Console.WriteLine("E1:0     E2:0   :   {0}", neurona.Salida(new double[2] { 0, 0 }));
+                Console.WriteLine("E1:1     E2:1   :   {0}", perceptron.Salidas(new double[] { 1, 1 })[0]);
+                Console.WriteLine("E1:1     E2:0   :   {0}", perceptron.Salidas(new double[] { 1, 0 })[0]);
+                Console.WriteLine("E1:0     E2:1   :   {0}", perceptron.Salidas(new double[] { 0, 1 })[0]);
+                Console.WriteLine("E1:0     E2:0   :   {0}", perceptron.Salidas(new double[] { 0, 0 })[0]);
 
 
-                if (neurona.Salida(new double[2] { 1, 1 }) != 1)
+                if (perceptron.Salidas(new double[] { 1, 1 })[0] != 1)
                 {
-                    neurona.Aprender(new double[2] { 1, 1 }, 1);
                     bandera = false;
                 }
 
 
-                if (neurona.Salida(new double[2] { 1, 0 }) != 0)
+                if (perceptron.Salidas(new double[] { 1, 0 })[0] != 0)
                 {
-                    neurona.Aprender(new double[2] { 1, 0 }, 0);
                     bandera = false;
                 }
 
-                if (neurona.Salida(new double[2] { 0, 1 }) != 0)
+                if (perceptron.Salidas(new double[] { 0, 1 })[0] != 0)
                 {
-                    neurona.Aprender(new double[2] { 0, 1 }, 0);
                     bandera = false;
                 }
 
-                if (neurona.Salida(new double[2] { 0, 0 }) != 0)
+                if (perceptron.Salidas(new double[] { 0, 0 })[0] != 1)
                 {
-                    neurona.Aprender(new double[2] { 0, 0 }, 0);
                     bandera = false;
                 }
+                iteraciones++;
 
             }
-
-            Console.ReadLine();
-        }
-
-        double Neurona(double entrada1, double entrada2, double peso1, double peso2, double umbral)
-        {
-            return umbral + entrada1 * peso1 + entrada2 * peso2;
-        }
-
-        double funcionNeurona(double d)
-        {
-            return d > 0 ? 1 : 0;
+            Console.WriteLine("Resultado encontrado en {0} iteraciones.", iteraciones);
+            Console.ReadKey();
         }
     }
 }
